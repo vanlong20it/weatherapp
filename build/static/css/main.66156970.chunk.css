@@ -1,0 +1,2 @@
+@import url(https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap);*{box-sizing:border-box;padding:0;margin:0;font-family:"Quicksand",sans-serif}body{min-height:100vh;position:relative;@media (min-width:768px);margin:0 20px}body:before{content:"";position:fixed;top:0;left:0;height:100%;width:100%;background-image:url(/static/media/vietnam.2c5f3529.jpg);background-repeat:no-repeat;background-position:50%;background-size:cover}.weather-app{height:100%;margin:0 auto;position:relative}
+/*# sourceMappingURL=main.66156970.chunk.css.map */

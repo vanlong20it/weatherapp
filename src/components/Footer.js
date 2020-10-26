@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
-const FooterStyle = styled.div`
+const FooterStyle = styled.footer`
     text-align:center;
     position:relative;
     bottom:0;

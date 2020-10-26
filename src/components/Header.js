@@ -21,13 +21,13 @@ const HeadingHeader = styled.header`
 
 const Header = () => {
 	return (
-		<>
+		<React.Fragment>
 			<HeadingHeader>
 				<a href="/">Weather App</a>
 				{/* use hook */}
 				<CurrentTimeNew/>
 			</HeadingHeader>
-		</>
+		</React.Fragment>
 	);
 }
 

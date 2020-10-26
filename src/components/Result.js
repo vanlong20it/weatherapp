@@ -117,6 +117,7 @@ const WeatherDetail = styled.div`
 
 `;
 
+
 const Result = ({ weather }) => {
     const {
         city,

@@ -1,15 +1,16 @@
-import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import device from './Device';
+import React from "react";
+import styled from "styled-components";
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearchLocation } from "@fortawesome/free-solid-svg-icons";
+import device from "./Device";
 
 const SearchBar = styled.form`
-  top: ${({ showResult }) => (showResult ? '0%' : '30%')};
+  top: ${({ showResult }) => (showResult ? "0%" : "30%")};
   position: relative;
   margin: 0 auto;
-  margin-bottom:30px;
+  margin-bottom: 30px;
   max-width: 500px;
   transition: 0.8s 0.5s;
   @media ${device.laptopL} {
@@ -29,10 +30,12 @@ const SearchInput = styled.input`
   color: #c5c5c5;
   transition: 0.2s;
   border-radius: 20px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   &:focus {
     color: #191919;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
     outline: none;
   }
   @media ${device.tablet} {
@@ -50,8 +53,8 @@ const SearchIcon = styled.span`
   top: 50%;
   left: 22px;
   transform: translate(-50%, -50%);
-  height: 14px;
-  width: 14px;
+  height: 20px;
+  width: 20px;
   font-size: 14px;
   color: #c5c5c5;
   @media ${device.tablet} {
@@ -66,14 +69,32 @@ const SearchIcon = styled.span`
   }
 `;
 
-const SearchCity = ({ submit, value, change, showResult }) => {
+const CurrentLocation = styled.span`
+  position: absolute;
+  top:50%;
+  transform:translate(0,-50%);
+  right:20px;
+  height:20px;
+  width:20px;
+  cursor:pointer;
+`;
+
+const SearchCity = ({ submit, value, change, showResult, handleGetLocation }) => {
   return (
     <>
       <SearchBar showResult={showResult} onSubmit={submit}>
-        <SearchInput type="text" value={value} placeholder="Nhập tên thành phố..." onChange={change} />
+        <SearchInput
+          type="text"
+          value={value}
+          placeholder="Nhập tên thành phố..."
+          onChange={change}
+        />
         <SearchIcon>
           <FontAwesomeIcon icon={faSearch} />
         </SearchIcon>
+        <CurrentLocation onClick={handleGetLocation}>
+          <FontAwesomeIcon icon={faSearchLocation} />
+        </CurrentLocation>
       </SearchBar>
     </>
   );
@@ -85,6 +106,5 @@ SearchCity.propTypes = {
   change: PropTypes.func.isRequired,
   showResult: PropTypes.bool.isRequired,
 };
-
 
 export default SearchCity;

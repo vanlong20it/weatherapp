@@ -15,13 +15,13 @@ const Text = styled.span`
   }
   `}
   @media ${device.tablet} {
-    font-size: ${({ fontSize }) => fontSize || '15px'};
+    font-size: ${({ fontSize }) => fontSize || '12px'};
   }
   @media ${device.laptop} {
-    font-size: ${({ fontSize }) => fontSize || '17px'};
+    font-size: ${({ fontSize }) => fontSize || '14px'};
   } 
   @media ${device.laptopL} {
-    font-size: ${({ fontSize }) => fontSize || '19px'};
+    font-size: ${({ fontSize }) => fontSize || '16px'};
   }
 `;
 

@@ -1,27 +1,32 @@
-// import { render } from "@testing-library/react";
 import React from "react";
 import styled from "styled-components";
 import "../fontawesome/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import device from "./Device";
 
 const Table = styled.table`
-  font-size: 18px;
+  font-size: 16px;
   color: #fff;
   width: 100%;
-  thead {
-    font-weight: bold;
-    color: green;
-  }
   .temp,
   .hum {
     text-align: center;
   }
   thead {
-    text-align:center;
-    background-color: #fff;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    background-color: green;
     cursor: pointer;
-    .ico{
-      display:block;
+    .ico {
+      display: block;
+      font-size: 12px;
+    }
+    td {
+      padding: 5px;
+    }
+    td:hover {
+      background-color: #00000040;
     }
   }
   tbody {
@@ -30,6 +35,9 @@ const Table = styled.table`
   tbody tr:hover {
     background-color: #ffffff50;
     cursor: pointer;
+  }
+  @media ${device.desktop} {
+    font-size: 12px;
   }
 `;
 
@@ -44,12 +52,11 @@ const StyleList = styled.div`
   }
   ::-webkit-scrollbar-thumb {
     background: #888;
-    transition:all .5s ease-out;
+    transition: all 1s ease-out;
   }
   ::-webkit-scrollbar-thumb:hover {
     background: green;
   }
-  border-radius: 5px;
   background-color: #00000050;
   .sort {
     padding: 10px 0px 20px;
@@ -112,7 +119,10 @@ class ListCountry extends React.Component {
                     );
                   }}
                 >
-                  Thành phố<span className="ico"><i className="fas fa-city"></i></span>
+                  Thành phố
+                  <span className="ico">
+                    <i className="fas fa-city"></i>
+                  </span>
                 </td>
                 <td
                   onClick={() => {
@@ -132,7 +142,10 @@ class ListCountry extends React.Component {
                     );
                   }}
                 >
-                  Nhiệt độ<span className="ico"><i className="fas fa-temperature-low"></i></span>
+                  Nhiệt độ
+                  <span className="ico">
+                    <i className="fas fa-temperature-low"></i>
+                  </span>
                 </td>
                 <td
                   onClick={() => {
@@ -152,7 +165,10 @@ class ListCountry extends React.Component {
                     );
                   }}
                 >
-                  Độ ẩm<span className="ico"><i className="fas fa-tint"></i></span>
+                  Độ ẩm
+                  <span className="ico">
+                    <i className="fas fa-tint"></i>
+                  </span>
                 </td>
               </tr>
             </thead>
