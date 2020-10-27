@@ -10,8 +10,7 @@ import Header from "./components/Header";
 import ListCountry from "./components/ListCountry";
 import ListCity from "./components/ListCity";
 import WeatherMap from "./components/WeatherMap";
-
-// import FakeData from "./components/FakeData";
+import { VFXProvider } from "react-vfx";
 
 const list_city = ListCity;
 
@@ -59,6 +58,13 @@ const days = [
 ];
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleSearchCity = this.handleSearchCity.bind(this);
+    this.handleGetLocation = this.handleGetLocation.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.success = this.success.bind(this);
+  }
   state = {
     value: "",
     weatherInfo: null,
@@ -144,29 +150,6 @@ export default class App extends React.Component {
         throw Error(res1.statusText);
       })
       .then(([data1]) => {
-        const months = [
-          "Tháng 1",
-          "Tháng 2",
-          "Tháng 3",
-          "Tháng 4",
-          "Tháng 5",
-          "Tháng 6",
-          "Tháng 7",
-          "Tháng 8",
-          "Tháng 9",
-          "Tháng 10",
-          "Tháng 11",
-          "Tháng 12",
-        ];
-        const days = [
-          "Chủ nhật",
-          "Thứ hai",
-          "Thứ ba",
-          "Thứ tư",
-          "Thứ 5",
-          "Thứ 6",
-          "Thứ 7",
-        ];
         const currentDate = new Date();
         const date = `${
           days[currentDate.getDay()]
@@ -232,27 +215,26 @@ export default class App extends React.Component {
     });
   };
 
-  handleGetLocation() {
+  success(position) {
     let latLocation = 0;
     let lonLocation = 0;
+    latLocation = position.coords.latitude.toFixed(2) - 0.1;
+    lonLocation = position.coords.longitude.toFixed(2) - 0.1;
+    console.log(latLocation + ", " + lonLocation);
+    this.setState({
+      lat: latLocation,
+      lon: lonLocation,
+    });
+  }
+
+  handleGetLocation() {
     let weatherInfo;
     let error = () => {
       console.log("Error");
     };
-    let success = (position) => {
-      latLocation = position.coords.latitude;
-      lonLocation = position.coords.longitude;
-      console.log(latLocation + ", " + lonLocation);
-      this.setState({
-        lat: latLocation,
-        lon: lonLocation,
-      });
-    };
-    navigator.geolocation.getCurrentPosition(success, error);
-
+    navigator.geolocation.getCurrentPosition(this.success, error);
     const APIkey = "4ab4acb103ca20bdcb9c98bb8cc7daa9";
-    console.log(latLocation + ", " + lonLocation);
-    const api = `http://api.openweathermap.org/data/2.5/weather?lat=${latLocation}&lon=${lonLocation}&appid=${APIkey}`;
+    const api = `http://api.openweathermap.org/data/2.5/weather?lat=${this.state.lat}&lon=${this.state.lon}&appid=${APIkey}`;
     Promise.all([fetch(api)])
       .then(([res1]) => {
         if (res1.ok) {
@@ -261,29 +243,6 @@ export default class App extends React.Component {
         throw Error(res1.statusText);
       })
       .then(([data1]) => {
-        const months = [
-          "Tháng 1",
-          "Tháng 2",
-          "Tháng 3",
-          "Tháng 4",
-          "Tháng 5",
-          "Tháng 6",
-          "Tháng 7",
-          "Tháng 8",
-          "Tháng 9",
-          "Tháng 10",
-          "Tháng 11",
-          "Tháng 12",
-        ];
-        const days = [
-          "Chủ nhật",
-          "Thứ hai",
-          "Thứ ba",
-          "Thứ tư",
-          "Thứ 5",
-          "Thứ 6",
-          "Thứ 7",
-        ];
         const currentDate = new Date();
         const date = `${
           days[currentDate.getDay()]
@@ -296,6 +255,7 @@ export default class App extends React.Component {
         const sunrise = new Date(data1.sys.sunrise * 1000)
           .toLocaleTimeString()
           .slice(0, 4);
+        console.log(data1);
         weatherInfo = {
           city: data1.name,
           country: data1.sys.country,
@@ -313,14 +273,10 @@ export default class App extends React.Component {
           humidity: data1.main.humidity,
           wind: data1.wind.speed,
         };
-        const cityExist = this.state.arr.find(
-          (element) => element.city === weatherInfo.city
-        );
-        if (cityExist === undefined) {
-          this.setState((prevState) => ({
-            arr: [...prevState.arr, weatherInfo],
-          }));
-        }
+        this.setState({
+          weatherInfo,
+          error: false,
+        });
       })
       .catch((error) => {
         this.setState({
@@ -332,39 +288,41 @@ export default class App extends React.Component {
     const { value, weatherInfo, error } = this.state;
     return (
       <React.Fragment>
-        <WeatherWrapper>
-          <Header />
-          <div className="container">
-            <SearchCity
-              handleGetLocation={this.handleGetLocation}
-              value={value}
-              showResult={(weatherInfo || error) && true}
-              change={this.handleInputChange}
-              submit={this.handleSearchCity}
-            />
-            <div className="row justify-content-center">
-              <div className="col-12 col-lg-5 col-md-9 col-xs-10">
-                <ListCountry
-                  list={this.state.arr}
-                  getLocalData={this.getLocalData}
-                />
+        <VFXProvider>
+          <WeatherWrapper>
+            <Header />
+            <div className="container">
+              <SearchCity
+                handleGetLocation={this.handleGetLocation}
+                value={value}
+                showResult={(weatherInfo || error) && true}
+                change={this.handleInputChange}
+                submit={this.handleSearchCity}
+              />
+              <div className="row justify-content-center">
+                <div className="col-12 col-lg-5 col-md-9 col-xs-10">
+                  <ListCountry
+                    list={this.state.arr}
+                    getLocalData={this.getLocalData}
+                  />
+                </div>
+                <div className="col-12 col-lg-7 col-md-12">
+                  {weatherInfo && <Result weather={weatherInfo} />}
+                  {error && <NotFound error={error} />}
+                </div>
               </div>
-              <div className="col-12 col-lg-7 col-md-12">
-                {weatherInfo && <Result weather={weatherInfo} />}
-                {error && <NotFound error={error} />}
-              </div>
+              {weatherInfo && (
+                <WeatherDetailMap>
+                  <WeatherMap
+                    lat={this.state.weatherInfo.lat}
+                    lon={this.state.weatherInfo.lon}
+                  />
+                </WeatherDetailMap>
+              )}
             </div>
-            {weatherInfo && (
-              <WeatherDetailMap>
-                <WeatherMap
-                  lat={this.state.weatherInfo.lat}
-                  lon={this.state.weatherInfo.lon}
-                />
-              </WeatherDetailMap>
-            )}
-          </div>
-          <Footer />
-        </WeatherWrapper>
+            <Footer />
+          </WeatherWrapper>
+        </VFXProvider>
       </React.Fragment>
     );
   }

@@ -188,7 +188,7 @@ const Result = ({ weather }) => {
                 </WeatherDetail>
                 <WeatherDetail>
                     <SmallLabel align="center" weight="400">
-                        {wind}mph
+                        {wind.toFixed(1)}mph
                     </SmallLabel>
                     <Text align="center">Gió</Text>
                 </WeatherDetail>
@@ -238,4 +238,5 @@ Result.propTypes = {
     }).isRequired,
 };
 
+// export default React.memo(Result);
 export default Result;

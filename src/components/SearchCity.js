@@ -27,7 +27,7 @@ const SearchInput = styled.input`
   background-color: #ffffff;
   font-size: 16px;
   padding: 10px 15px 10px 40px;
-  color: #c5c5c5;
+  color: #000;
   transition: 0.2s;
   border-radius: 20px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -51,12 +51,11 @@ const SearchIcon = styled.span`
   display: block;
   position: absolute;
   top: 50%;
-  left: 22px;
-  transform: translate(-50%, -50%);
+  left: 10px;
+  transform: translate(0, -50%);
   height: 20px;
   width: 20px;
-  font-size: 14px;
-  color: #c5c5c5;
+  color: #000;
   @media ${device.tablet} {
     height: 15px;
     width: 15px;

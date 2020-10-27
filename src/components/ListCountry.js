@@ -13,6 +13,8 @@ const Table = styled.table`
     text-align: center;
   }
   thead {
+    position: sticky;
+    top: 0;
     font-weight: bold;
     color: #fff;
     text-align: center;
@@ -32,9 +34,12 @@ const Table = styled.table`
   tbody {
     font-size: 16px;
   }
-  tbody tr:hover {
-    background-color: #ffffff50;
+  tbody tr{
     cursor: pointer;
+    transition:all .2s ease-out;
+    &:hover{
+      background-color: #ffffff50;
+    }
   }
   @media ${device.desktop} {
     font-size: 12px;
