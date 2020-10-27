@@ -82,10 +82,7 @@ export default class App extends React.Component {
 
   componentDidMount() {
     list_city.forEach((item) => {
-      // get api without languege
       const weather = `https://api.openweathermap.org/data/2.5/weather?q=${item.name}&APPID=${APIkey}`;
-      // get api with language
-      // const weather = `https://api.openweathermap.org/data/2.5/weather?q=${item.name}&APPID=${APIkey}&lang=vi`;
       Promise.all([fetch(weather)])
         .then(([res1]) => {
           if (res1.ok) {
