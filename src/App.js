@@ -13,7 +13,6 @@ import WeatherMap from "./components/WeatherMap";
 import ListKey from "./components/ListKey";
 
 const list_city = ListCity;
-
 // style
 const WeatherWrapper = styled.div`
   max-width: 1500px;
