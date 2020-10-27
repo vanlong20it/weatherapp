@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
+import { VFXSpan } from "react-vfx";
+
 const FooterStyle = styled.footer`
     text-align:center;
     position:relative;
@@ -15,7 +17,7 @@ const Footer = () => {
         <>
             <FooterStyle>
                 <p>Nhóm B</p>
-                <p>Demo ReactJS</p>
+                <p><VFXSpan>Demo ReactJS</VFXSpan></p>
             </FooterStyle>
         </>
     );

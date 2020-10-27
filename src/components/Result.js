@@ -27,7 +27,7 @@ const Results = styled.div`
     visibility: hidden;
     position: relative;
     top: 20px;
-    animation: ${ResultFadeIn} 0.5s 1.4s forwards;
+    animation: ${ResultFadeIn} 0.5s 1s forwards;
 `;
 
 const LocationWrapper = styled.div`

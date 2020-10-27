@@ -10,7 +10,7 @@ import Header from "./components/Header";
 import ListCountry from "./components/ListCountry";
 import ListCity from "./components/ListCity";
 import WeatherMap from "./components/WeatherMap";
-import { VFXProvider } from "react-vfx";
+import ListKey from "./components/ListKey";
 
 const list_city = ListCity;
 
@@ -30,7 +30,7 @@ const WeatherDetailMap = styled.div`
 `;
 
 // main
-const APIkey = "d5f06af8af8115773a03baf9a20d99fc";
+const APIkey = ListKey;
 
 const months = [
   "Tháng 1",
@@ -64,15 +64,15 @@ export default class App extends React.Component {
     this.handleGetLocation = this.handleGetLocation.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.success = this.success.bind(this);
+    this.state = {
+      value: "",
+      weatherInfo: null,
+      error: false,
+      arr: [],
+      lat: 0,
+      lon: 0,
+    };
   }
-  state = {
-    value: "",
-    weatherInfo: null,
-    error: false,
-    arr: [],
-    lat: 0,
-    lon: 0,
-  };
 
   handleInputChange = (e) => {
     this.setState({
@@ -137,7 +137,6 @@ export default class App extends React.Component {
   handleSearchCity = (e) => {
     if (e) e.preventDefault();
     const { value } = this.state;
-    const APIkey = "4ab4acb103ca20bdcb9c98bb8cc7daa9";
     const weather = `https://api.openweathermap.org/data/2.5/weather?q=${value}&APPID=${APIkey}`;
     Promise.all([fetch(weather)])
       .then(([res1]) => {
@@ -226,11 +225,14 @@ export default class App extends React.Component {
 
   handleGetLocation() {
     let weatherInfo;
+
+    //Get your location
     let error = () => {
       console.log("Error");
     };
     navigator.geolocation.getCurrentPosition(this.success, error);
-    const APIkey = "4ab4acb103ca20bdcb9c98bb8cc7daa9";
+
+    //Get weather datas in your location
     const api = `http://api.openweathermap.org/data/2.5/weather?lat=${this.state.lat}&lon=${this.state.lon}&appid=${APIkey}`;
     Promise.all([fetch(api)])
       .then(([res1]) => {
@@ -281,45 +283,44 @@ export default class App extends React.Component {
         });
       });
   }
+
   render() {
     const { value, weatherInfo, error } = this.state;
     return (
       <React.Fragment>
-        <VFXProvider>
-          <WeatherWrapper>
-            <Header />
-            <div className="container">
-              <SearchCity
-                handleGetLocation={this.handleGetLocation}
-                value={value}
-                showResult={(weatherInfo || error) && true}
-                change={this.handleInputChange}
-                submit={this.handleSearchCity}
-              />
-              <div className="row justify-content-center">
-                <div className="col-12 col-lg-5 col-md-9 col-xs-10">
-                  <ListCountry
-                    list={this.state.arr}
-                    getLocalData={this.getLocalData}
-                  />
-                </div>
-                <div className="col-12 col-lg-7 col-md-12">
-                  {weatherInfo && <Result weather={weatherInfo} />}
-                  {error && <NotFound error={error} />}
-                </div>
+        <WeatherWrapper>
+          <Header />
+          <div className="container">
+            <SearchCity
+              handleGetLocation={this.handleGetLocation}
+              value={value}
+              showResult={(weatherInfo || error) && true}
+              change={this.handleInputChange}
+              submit={this.handleSearchCity}
+            />
+            <div className="row justify-content-center">
+              <div className="col-12 col-lg-5 col-md-9 col-xs-10">
+                <ListCountry
+                  list={this.state.arr}
+                  getLocalData={this.getLocalData}
+                />
               </div>
-              {weatherInfo && (
-                <WeatherDetailMap>
-                  <WeatherMap
-                    lat={this.state.weatherInfo.lat}
-                    lon={this.state.weatherInfo.lon}
-                  />
-                </WeatherDetailMap>
-              )}
+              <div className="col-12 col-lg-7 col-md-12">
+                {weatherInfo && <Result weather={weatherInfo} />}
+                {error && <NotFound error={error} />}
+              </div>
             </div>
-            <Footer />
-          </WeatherWrapper>
-        </VFXProvider>
+            {weatherInfo && (
+              <WeatherDetailMap>
+                <WeatherMap
+                  lat={this.state.weatherInfo.lat}
+                  lon={this.state.weatherInfo.lon}
+                />
+              </WeatherDetailMap>
+            )}
+          </div>
+          <Footer />
+        </WeatherWrapper>
       </React.Fragment>
     );
   }
