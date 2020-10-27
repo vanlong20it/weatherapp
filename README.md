@@ -1,4 +1,6 @@
 # weatherapp
-npm install
-npm react-scripts build
-npm start
+* npm install
+
+* npm react-scripts build
+
+* npm start
