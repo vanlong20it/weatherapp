@@ -1,3 +1,6 @@
 # weatherapp
-yarn start
-yarn build
+* npm install
+
+* npm react-scripts build
+
+* npm start
