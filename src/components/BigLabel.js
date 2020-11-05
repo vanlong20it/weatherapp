@@ -27,3 +27,6 @@ const BigLabel = styled.h2`
 `;
 
 export default BigLabel;
+
+
+
